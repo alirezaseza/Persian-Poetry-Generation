@@ -1,107 +1,277 @@
 # Persian Poetry Generation
 
-A Persian poetry generation system built with a custom Transformer architecture, multi-stage training pipeline, and linguistically guided text generation.
+### A Custom AI System for Persian Poetry Generation
+
+An independent AI engineering project focused on building a specialized language model for Persian poetry, combining custom Transformer architecture, multi-stage training, optimized inference, and linguistically guided generation.
+
+---
 
 ## Overview
 
-This project explores the development of a custom language model specialized in Persian poetry generation.
+Persian Poetry Generation is a custom language modeling project designed to generate Persian poetry by learning linguistic patterns, literary styles, and poetic structures.
 
-The system combines language model pretraining, poetry fine-tuning, and rule-based linguistic evaluation to generate Persian poems with attention to poetic structure, rhyme, and literary style.
+The system combines a decoder-only Transformer, a dedicated Persian text-processing pipeline, and a poetry generation engine with support for rhyme, Radif, poetic forms, and poet conditioning.
 
-The project includes a custom Transformer implementation, training infrastructure, generation engine, and Telegram bot integration.
+The project also includes an interactive Telegram bot connected to the generation engine.
 
-## Key Features
+## Features
 
-- Custom decoder-only Transformer architecture.
-- Multi-stage training pipeline.
-- Prose pretraining and Persian poetry fine-tuning.
-- Byte Pair Encoding (BPE) tokenizer.
-- Grouped Query Attention (GQA).
-- Rotary Positional Embeddings (RoPE).
-- RMSNorm and SwiGLU.
-- Exponential Moving Average (EMA) training support.
-- Rhyme and Radif-aware generation.
-- Couplets and different Persian poetic forms.
-- Candidate generation and ranking.
-- Vocabulary and lexical constraints.
-- GPU-aware model size selection.
-- Telegram bot integration.
+- Custom Transformer language model
+- Multi-stage training pipeline
+- Persian prose pretraining
+- Ganjoor poetry fine-tuning
+- BPE tokenizer with a 16K vocabulary
+- Grouped Query Attention (GQA)
+- Rotary Positional Embeddings (RoPE)
+- RMSNorm
+- SwiGLU feed-forward networks
+- Query-Key normalization
+- Weight tying
+- Exponential Moving Average (EMA)
+- GPU-aware training configuration
+- Custom Triton operations
+- PyTorch fallback implementations
+- KV-cache optimized generation
+- Poet-conditioned generation
+- Persian poetic-form conditioning
+- Qafiya and Radif constraints
+- Couplets and Masnavi generation
+- Candidate sampling and ranking
+- Syllable estimation and constraints
+- Poetry analysis utilities
+- Telegram bot integration
 
 ## Model Architecture
 
-The model uses a decoder-only Transformer inspired by modern language model architectures.
+The model uses a custom decoder-only Transformer architecture.
 
-Core components:
+| Component | Implementation |
+|---|---|
+| Model Type | Decoder-only Transformer |
+| Attention | Grouped Query Attention |
+| Position Encoding | RoPE |
+| Normalization | RMSNorm |
+| Feed-Forward Network | SwiGLU |
+| Attention Normalization | QK-Norm |
+| Embeddings | Weight Tying |
+| Tokenizer | BPE |
+| Inference | Autoregressive Generation |
+| Cache | KV Cache |
 
-- Multi-layer Transformer blocks
-- Grouped Query Attention
-- Rotary Positional Embeddings
-- RMSNorm
-- SwiGLU feed-forward networks
-- Weight tying between token embeddings and output projection
-
-The training pipeline supports multiple model configurations, from small to extra-large. The automatic configuration can select a model size based on available GPU resources and the training budget.
+The architecture is implemented in PyTorch and supports GPU acceleration.
 
 ## Training Pipeline
 
-The system supports three main training stages:
+The training system consists of multiple stages.
 
-1. **Pretraining:** Learning general language patterns from Persian prose.
-2. **Fine-tuning:** Adapting the model to Persian poetry.
-3. **Style training:** An additional stage for refining literary characteristics.
+### 1. Persian Prose Pretraining
 
-Training includes validation, checkpoint management, EMA evaluation, and loss monitoring.
+The model learns general Persian language patterns using processed Persian prose.
 
-## Generation System
+### 2. Poetry Fine-tuning
 
-The generation engine supports:
+The model is adapted to Persian poetic language using the Ganjoor poetry dataset.
 
-- Persian poetic forms
-- Poet-specific generation
-- Rhyme and Radif constraints
+### 3. Style Training
+
+The training implementation also supports an optional style-training stage.
+
+### Training Features
+
+- Automatic model-size selection
+- GPU memory-aware batch configuration
+- Mixed-precision training
+- AdamW optimization
+- Gradient accumulation
+- EMA weight tracking
+- Validation monitoring
+- Checkpoint management
+- Resumable training
+- Training visualization
+
+## Generation Engine
+
+The generation engine combines neural text generation with linguistic constraints.
+
+### Supported Capabilities
+
+- Poet selection
+- Poetic-form selection
+- Qafiya constraints
+- Radif constraints
 - First-hemistich continuation
-- Couplets generation
-- Candidate sampling and ranking
+- Couplet generation
+- Masnavi-style paired rhymes
+- Multiple candidate generation
+- Candidate ranking
+- Temperature sampling
+- Top-p sampling
 - Optional syllable-count constraints
+- Optional poet-style reranking
+
+## Performance Optimization
+
+The project includes custom optimizations for model training and inference.
+
+- Triton-based RMSNorm operations
+- Fused SwiGLU operations
+- Fused cross-entropy
+- PyTorch fallback operations
+- KV-cache-based generation
+
+These optimizations are designed to improve computational efficiency.
+
+## Telegram Bot
+
+The project includes a Telegram bot connected to the poetry generation engine.
+
+Its functionality includes:
+
+- Interactive menus
+- Poet and poetic-form selection
+- Generation settings
+- Credit management
+- User management
+- Administrative controls
+- Generation request processing
+- Persian-language interface
 
 ## Project Structure
 
-| File | Description |
-|---|---|
-| `poet.py` | Main model, training pipeline, and generation |
-| `model.py` | Transformer implementation |
-| `train.py` | Training implementation |
-| `generate.py` | Generation interface |
-| `fastgen.py` | Optimized generation engine |
-| `ops.py` | Computational optimizations |
-| `prepare_data.py` | Dataset preparation |
-| `stylecheck.py` | Poetry evaluation |
-| `stylekit.py` | Style-related utilities |
-| `bot.py` | Telegram bot |
-| `core.py` | Bot backend and application logic |
-| `lexicon.py` | Lexical utilities |
+```text
+NEEEDSHOM/
+│
+├── poet.py
+├── poet_text.py
+├── ops.py
+│
+├── bot.py
+├── core.py
+├── texts.py
+│
+├── generate_fast.py
+├── stylecheck.py
+├── stylekit.py
+├── textutil.py
+│
+├── model.py
+├── train.py
+├── generate.py
+├── fastgen.py
+├── prepare_data.py
+├── lexicon.py
+├── plot.py
+├── ui.py
+│
+├── generated_poems.txt
+├── training_curves.png
+├── training_curves_smoke.png
+│
+└── README.md
+```
 
-## Technology Stack
+## Installation
+
+Install the required Python dependencies and a compatible PyTorch build for your hardware.
+
+The project requires Python, PyTorch, and the supporting libraries used by its training and generation components.
+
+## Usage
+
+### Run Self-Tests
+
+```bash
+python poet.py selftest
+```
+
+### Run an End-to-End Smoke Test
+
+```bash
+python poet.py all --smoke
+```
+
+### Prepare Data and Train the Model
+
+```bash
+python poet.py all --hours 16
+```
+
+### Generate Persian Poetry
+
+```bash
+python poet.py gen --form غزلیات
+```
+
+### Generate Poetry by a Specific Poet
+
+```bash
+python poet.py gen --poet حافظ --form غزلیات
+```
+
+### Generate with Qafiya and Radif
+
+```bash
+python poet.py gen --qafiye ان --radif ما --form غزلیات
+```
+
+### Generate Multiple Candidates
+
+```bash
+python poet.py gen --poet سعدی --form غزلیات --n 3 --best-of 8
+```
+
+Generation requires the trained model checkpoint and tokenizer files.
+
+The training pipeline also requires the appropriate source datasets.
+
+## Evaluation
+
+The project includes tools for inspecting model training and generated poetry.
+
+Available evaluation utilities include:
+
+- Training and validation loss monitoring
+- Training curve visualization
+- Rhyme matching
+- Syllable estimation
+- Repetition detection
+- Literary-style analysis
+- Candidate scoring
+
+## Technologies
 
 - Python
 - PyTorch
 - CUDA
-- Transformer architectures
-- Tokenization and BPE
+- Triton
+- Hugging Face Tokenizers
+- Transformer Architectures
 - Telegram Bot API
 
-## Research and Engineering Goals
+## Research Objectives
 
-The main goal is to explore how a relatively compact, domain-specialized language model can learn Persian literary patterns and generate structured poetry.
+The project explores the development of compact, domain-specialized language models for Persian literary generation.
 
-The project focuses on model architecture, training efficiency, linguistic constraints, and practical text generation.
+Its main objectives are:
+
+- Persian language modeling
+- Domain-specific model training
+- Literary pattern learning
+- Poetry structure modeling
+- Linguistically constrained generation
+- Efficient Transformer training and inference
+- Practical AI application development
 
 ## Model Weights
 
-Model checkpoints and tokenizer files are not included in this repository.
+Model checkpoints and tokenizer assets are not included in this repository.
 
-The repository currently focuses on source code and implementation details.
+This repository focuses on the source code, model implementation, training pipeline, and generation system.
+
+## Author
+
+Developed as an independent AI engineering project.
 
 ## License
 
-License and dataset redistribution terms are subject to review. See the repository documentation for updates.
+License and dataset redistribution terms are subject to review before public redistribution.
